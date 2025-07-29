@@ -1,41 +1,41 @@
 # NFT Platform for Academic Papers - Backend
 
-学術論文のためのNFTプラットフォームのバックエンドAPI
+Backend API for NFT platform for academic papers
 
-## 概要
+## Overview
 
-このプロジェクトは、Go言語で実装された学術論文のNFTプラットフォームのバックエンドです。研究者が論文を投稿し、査読を受け、NFTとして発行できるシステムを提供します。
+This project is a backend for an NFT platform for academic papers implemented in Go. It provides a system where researchers can submit papers, undergo peer review, and publish them as NFTs.
 
-## 機能
+## Features
 
-- **ユーザー認証**: JWT認証によるユーザー登録・ログイン
-- **論文管理**: 論文の作成、編集、削除、検索
-- **査読システム**: ピアレビューとスコアリング機能
-- **NFT統合**: 論文の査読完了後のNFT変換（準備中）
+- **User Authentication**: User registration and login with JWT authentication
+- **Paper Management**: Creation, editing, deletion, and search of papers
+- **Peer Review System**: Peer review and scoring functionality
+- **NFT Integration**: NFT conversion after paper review completion (in preparation)
 
-## 技術スタック
+## Technology Stack
 
-- **言語**: Go 1.22+
-- **Webフレームワーク**: Gin
-- **データベース**: PostgreSQL with GORM
-- **認証**: JWT
-- **ログ**: slog (JSON format)
+- **Language**: Go 1.22+
+- **Web Framework**: Gin
+- **Database**: PostgreSQL with GORM
+- **Authentication**: JWT
+- **Logging**: slog (JSON format)
 
-## アーキテクチャ
+## Architecture
 
-Clean Architectureパターンを採用:
-- `models/`: データモデル
-- `repository/`: データアクセス層
-- `service/`: ビジネスロジック層
-- `handlers/`: HTTPハンドラー
-- `middleware/`: ミドルウェア
-- `router/`: ルーティング設定
+Adopting Clean Architecture pattern:
+- `models/`: Data models
+- `repository/`: Data access layer
+- `service/`: Business logic layer
+- `handlers/`: HTTP handlers
+- `middleware/`: Middleware
+- `router/`: Routing configuration
 
-## セットアップ
+## Setup
 
-### 環境変数
+### Environment Variables
 
-`.env`ファイルを作成し、以下の環境変数を設定してください:
+Create a `.env` file and configure the following environment variables:
 
 ```env
 # Database
@@ -50,128 +50,128 @@ GIN_MODE=debug
 JWT_SECRET=your-secret-key
 JWT_EXPIRES_IN=24h
 
-# IPFS (将来の実装用)
+# IPFS (for future implementation)
 IPFS_API_URL=http://localhost:5001
 
-# Ethereum (将来の実装用)
+# Ethereum (for future implementation)
 ETHEREUM_RPC_URL=http://localhost:8545
 ETHEREUM_PRIVATE_KEY=your-private-key
 PAPER_CONTRACT_ADDRESS=0x...
 REVIEW_CONTRACT_ADDRESS=0x...
 ```
 
-### データベースセットアップ
+### Database Setup
 
-PostgreSQLを起動し、データベースを作成:
+Start PostgreSQL and create the database:
 
 ```bash
 createdb nft_platform
 ```
 
-### アプリケーション実行
+### Application Execution
 
 ```bash
-# 依存関係のインストール
+# Install dependencies
 go mod tidy
 
-# アプリケーション実行
+# Run application
 go run cmd/server/main.go
 ```
 
-## API エンドポイント
+## API Endpoints
 
-### 認証
+### Authentication
 
-- `POST /api/v1/auth/register` - ユーザー登録
-- `POST /api/v1/auth/login` - ログイン
-- `GET /api/v1/auth/profile` - プロフィール取得（認証必要）
+- `POST /api/v1/auth/register` - User registration
+- `POST /api/v1/auth/login` - Login
+- `GET /api/v1/auth/profile` - Get profile (authentication required)
 
-### 論文
+### Papers
 
-- `POST /api/v1/papers` - 論文作成（認証必要）
-- `GET /api/v1/papers` - 論文一覧取得
-- `GET /api/v1/papers/my` - 自分の論文一覧（認証必要）
-- `GET /api/v1/papers/search?q=query` - 論文検索
-- `GET /api/v1/papers/:id` - 論文詳細取得
-- `PUT /api/v1/papers/:id` - 論文更新（認証必要）
-- `DELETE /api/v1/papers/:id` - 論文削除（認証必要）
-- `POST /api/v1/papers/:id/submit` - 査読提出（認証必要）
+- `POST /api/v1/papers` - Create paper (authentication required)
+- `GET /api/v1/papers` - Get paper list
+- `GET /api/v1/papers/my` - Get my papers (authentication required)
+- `GET /api/v1/papers/search?q=query` - Search papers
+- `GET /api/v1/papers/:id` - Get paper details
+- `PUT /api/v1/papers/:id` - Update paper (authentication required)
+- `DELETE /api/v1/papers/:id` - Delete paper (authentication required)
+- `POST /api/v1/papers/:id/submit` - Submit for review (authentication required)
 
-### 査読
+### Reviews
 
-- `POST /api/v1/reviews` - 査読作成（認証必要）
-- `GET /api/v1/reviews/my` - 自分の査読一覧（認証必要）
-- `GET /api/v1/reviews/pending` - 査読待ち論文一覧（認証必要）
-- `GET /api/v1/reviews/:id` - 査読詳細取得（認証必要）
-- `PUT /api/v1/reviews/:id` - 査読更新（認証必要）
-- `DELETE /api/v1/reviews/:id` - 査読削除（認証必要）
-- `GET /api/v1/papers/:paper_id/reviews` - 論文の査読一覧（認証必要）
-- `GET /api/v1/papers/:paper_id/score` - 論文スコア取得（認証必要）
+- `POST /api/v1/reviews` - Create review (authentication required)
+- `GET /api/v1/reviews/my` - Get my reviews (authentication required)
+- `GET /api/v1/reviews/pending` - Get pending review papers (authentication required)
+- `GET /api/v1/reviews/:id` - Get review details (authentication required)
+- `PUT /api/v1/reviews/:id` - Update review (authentication required)
+- `DELETE /api/v1/reviews/:id` - Delete review (authentication required)
+- `GET /api/v1/papers/:paper_id/reviews` - Get paper reviews (authentication required)
+- `GET /api/v1/papers/:paper_id/score` - Get paper score (authentication required)
 
-## プロジェクト構造
+## Project Structure
 
 ```
 cmd/
   server/
-    main.go           # アプリケーションエントリーポイント
+    main.go           # Application entry point
 internal/
   config/
-    config.go         # 設定管理
+    config.go         # Configuration management
   database/
-    connection.go     # データベース接続
+    connection.go     # Database connection
   handlers/
-    auth_handler.go   # 認証ハンドラー
-    paper_handler.go  # 論文ハンドラー
-    review_handler.go # 査読ハンドラー
+    auth_handler.go   # Authentication handler
+    paper_handler.go  # Paper handler
+    review_handler.go # Review handler
   middleware/
-    auth.go          # 認証ミドルウェア
-    middleware.go    # その他ミドルウェア
+    auth.go          # Authentication middleware
+    middleware.go    # Other middleware
   models/
-    user.go          # ユーザーモデル
-    paper.go         # 論文モデル
-    review.go        # 査読モデル
-    nft_metadata.go  # NFTメタデータモデル
+    user.go          # User model
+    paper.go         # Paper model
+    review.go        # Review model
+    nft_metadata.go  # NFT metadata model
   repository/
-    user_repository.go    # ユーザーリポジトリ
-    paper_repository.go   # 論文リポジトリ
-    review_repository.go  # 査読リポジトリ
+    user_repository.go    # User repository
+    paper_repository.go   # Paper repository
+    review_repository.go  # Review repository
   router/
-    router.go        # ルーティング設定
+    router.go        # Routing configuration
   service/
-    auth_service.go  # 認証サービス
-    paper_service.go # 論文サービス
-    review_service.go # 査読サービス
+    auth_service.go  # Authentication service
+    paper_service.go # Paper service
+    review_service.go # Review service
   utils/
-    jwt.go           # JWT ユーティリティ
-    password.go      # パスワードハッシュ
+    jwt.go           # JWT utility
+    password.go      # Password hash
 pkg/
   logger/
-    logger.go        # ログ設定
+    logger.go        # Log configuration
 ```
 
-## 今後の実装予定
+## Future Implementation Plans
 
-- [ ] IPFS統合によるファイルストレージ
-- [ ] Ethereumスマートコントラクト統合
-- [ ] NFT発行機能
-- [ ] ファイルアップロード機能
-- [ ] 通知システム
-- [ ] 詳細なアクセス制御
+- [ ] IPFS integration for file storage
+- [ ] Ethereum smart contract integration
+- [ ] NFT minting functionality
+- [ ] File upload functionality
+- [ ] Notification system
+- [ ] Detailed access control
 
-## 開発
+## Development
 
-### テスト実行
+### Running Tests
 
 ```bash
 go test ./...
 ```
 
-### ビルド
+### Build
 
 ```bash
 go build -o bin/server cmd/server/main.go
 ```
 
-## ライセンス
+## License
 
 MIT License
