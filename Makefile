@@ -10,7 +10,7 @@ DOCKER_IMAGE=nft-platform-backend
 build:
 	@echo "Building application..."
 	@mkdir -p $(BUILD_DIR)
-	go build -o $(BUILD_DIR)/$(BINARY_NAME) $(MAIN_PATH)
+	go build -o $(BUILD_DIR)/$(BINARY_NAME) $(MAIN_PATH)/output
 
 # Run the application
 run: build
